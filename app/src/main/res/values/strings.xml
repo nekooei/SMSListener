@@ -4,4 +4,5 @@
     <string name="ed_regex_hint">REGEX</string>
     <string name="regex_titile_hint">Set Your Regex (Regular Expression)</string>
     <string name="btn_regex_set">set regex</string>
+    <string name="title_regex">REGEX:\nREGEXTYPE</string>
 </resources>

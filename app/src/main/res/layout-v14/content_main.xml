@@ -17,7 +17,7 @@
         android:id="@+id/regex_status"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="REGEX:\n"
+        android:text="@string/title_regex"
         android:textSize="15dp"
         android:textAlignment="center" />
 
@@ -44,6 +44,7 @@
         android:text="@string/btn_regex_set"
         android:layout_below="@id/input"
         android:layout_alignParentRight="true"/>
+
 
 
 </RelativeLayout>
