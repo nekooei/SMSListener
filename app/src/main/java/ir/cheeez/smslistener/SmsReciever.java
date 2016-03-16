@@ -9,39 +9,38 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
-import android.util.Log;
-import android.widget.RemoteViews;
 
 
 public class SmsReciever extends BroadcastReceiver {
 
-    private final SmsManager smsManager = SmsManager.getDefault();
     private Finder smsChecker;
     private Context context;
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onReceive(Context context, Intent intent) {
         this.context = context;
 
         final Bundle extras = intent.getExtras();
         try{
-            if (extras != null){
+            try {
                 Object[] pdusObj = (Object[]) extras.get("pdus");
-                for (int i = 0 ; i < pdusObj.length ; i++){
-                    SmsMessage currentMessage = SmsMessage.createFromPdu((byte[]) pdusObj[i]);
-
-                    String phoneNumber = currentMessage.getDisplayOriginatingAddress();
+                for (Object aPdusObj : pdusObj) {
+                    SmsMessage currentMessage = SmsMessage.createFromPdu((byte[]) aPdusObj);
+                    //String phoneNumber = currentMessage.getDisplayOriginatingAddress();
                     String messageBody = currentMessage.getMessageBody();
 
-                    smsChecker = new Finder(context,messageBody);
+                    smsChecker = new Finder(context, messageBody);
                     boolean matched = smsChecker.matchPattern();
-                    if(matched){
+                    if (matched) {
                         doAction();
                     }
                 }
+            }catch (NullPointerException ex){
+                ex.printStackTrace();
+            }
+
+            if (extras != null){
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -50,6 +49,7 @@ public class SmsReciever extends BroadcastReceiver {
     }
 
     // You can rewrite your action in this method
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void doAction() {
         Intent notifyIntent = new Intent(context,MainActivity.class);
         PendingIntent contentIntent = PendingIntent.getActivity(context,1
