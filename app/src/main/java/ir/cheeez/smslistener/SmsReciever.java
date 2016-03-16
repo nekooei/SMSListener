@@ -25,8 +25,10 @@ public class SmsReciever extends BroadcastReceiver {
         try{
             try {
                 Object[] pdusObj = (Object[]) extras.get("pdus");
-                for (Object aPdusObj : pdusObj) {
-                    SmsMessage currentMessage = SmsMessage.createFromPdu((byte[]) aPdusObj);
+                for (Object Obj : pdusObj) {
+                    SmsMessage currentMessage = SmsMessage.createFromPdu((byte[]) Obj);
+
+                    // if you want phone number , uncomment this line :)
                     //String phoneNumber = currentMessage.getDisplayOriginatingAddress();
                     String messageBody = currentMessage.getMessageBody();
 
