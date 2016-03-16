@@ -23,26 +23,24 @@ public class SmsReciever extends BroadcastReceiver {
 
         final Bundle extras = intent.getExtras();
         try{
-            try {
-                Object[] pdusObj = (Object[]) extras.get("pdus");
-                for (Object Obj : pdusObj) {
-                    SmsMessage currentMessage = SmsMessage.createFromPdu((byte[]) Obj);
-
-                    // if you want phone number , uncomment this line :)
-                    //String phoneNumber = currentMessage.getDisplayOriginatingAddress();
-                    String messageBody = currentMessage.getMessageBody();
-
-                    smsChecker = new Finder(context, messageBody);
-                    boolean matched = smsChecker.matchPattern();
-                    if (matched) {
-                        doAction();
-                    }
-                }
-            }catch (NullPointerException ex){
-                ex.printStackTrace();
-            }
-
             if (extras != null){
+                try {
+                    Object[] pdusObj = (Object[]) extras.get("pdus");
+                    for (Object Obj : pdusObj) {
+                        SmsMessage currentMessage = SmsMessage.createFromPdu((byte[]) Obj);
+                        //String phoneNumber = currentMessage.getDisplayOriginatingAddress();
+                        String messageBody = currentMessage.getMessageBody();
+
+                        smsChecker = new Finder(context, messageBody);
+                        boolean matched = smsChecker.matchPattern();
+                        if (matched) {
+                            doAction();
+                        }
+                    }
+                }catch (NullPointerException ex){
+                    ex.printStackTrace();
+                }
+
             }
         }catch (Exception e){
             e.printStackTrace();
